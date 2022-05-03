@@ -5,6 +5,8 @@ import (
 	"gorm.io/gorm"
 )
 
+const apiUrl = "api"
+
 type handler struct {
 	DB *gorm.DB
 }
@@ -14,9 +16,9 @@ func RegisterRoutes(app *fiber.App, db *gorm.DB) {
 		DB: db,
 	}
 
-	routes := app.Group("/balance")
-	routes.Post("/", h.AddBalance)
-	routes.Get("/:id", h.GetBalance)
-	routes.Put("/:id&:amount", h.AddBalance)
-	routes.Delete("/:id/:amount", h.DeleteBalance)
+	routes := app.Group("/")
+	routes.Post(apiUrl+"/deposit/", h.AddBalance)
+	routes.Get(apiUrl+"/balance/:id", h.GetBalance)
+	routes.Post(apiUrl+"/transfer/", h.TransferBalance)
+	routes.Delete(apiUrl+"/decrease/:id/:amount", h.DeleteBalance)
 }

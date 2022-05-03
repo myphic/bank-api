@@ -22,5 +22,8 @@ func main() {
 
 	balance.RegisterRoutes(app, h)
 
-	app.Listen(c.Port)
+	err = app.Listen(c.Port)
+	if err != nil {
+		log.Fatalln("Failed at listen", err)
+	}
 }

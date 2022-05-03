@@ -7,8 +7,8 @@ import (
 
 type TransferBalanceRequestBody struct {
 	Amount     int32 `json:"amount"`
-	FromUserId int   `json:"from_UserId"`
-	ToUserId   int   `json:"to_UserId"`
+	FromUserId int   `json:"fromUserId"`
+	ToUserId   int   `json:"toUserId"`
 }
 
 func (h handler) TransferBalance(c *fiber.Ctx) error {
@@ -17,7 +17,9 @@ func (h handler) TransferBalance(c *fiber.Ctx) error {
 	if err := c.BodyParser(&body); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
-
+	if body.Amount == 0 {
+		return fiber.NewError(fiber.StatusInternalServerError, "It is impossible to transfer zero funds")
+	}
 	var balanceFrom models.Balance
 	var balanceTo models.Balance
 	var firstUserBalance, secondUserBalance Balance
@@ -33,5 +35,4 @@ func (h handler) TransferBalance(c *fiber.Ctx) error {
 	h.DB.Save(&balanceFrom)
 	h.DB.Save(&balanceTo)
 	return c.Status(fiber.StatusOK).JSON(&balanceTo)
-
 }
