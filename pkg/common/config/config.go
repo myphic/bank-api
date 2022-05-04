@@ -2,7 +2,6 @@ package config
 
 import (
 	"github.com/spf13/viper"
-	"gorm.io/gorm"
 )
 
 type Config struct {
@@ -12,10 +11,6 @@ type Config struct {
 	DBPass string `mapstructure:"DB_PASS"`
 	DBName string `mapstructure:"DB_NAME"`
 	DBPort string `mapstructure:"DB_PORT"`
-}
-
-type handler struct {
-	DB *gorm.DB
 }
 
 func LoadConfig() (c Config, err error) {

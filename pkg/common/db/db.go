@@ -19,7 +19,10 @@ func Init(c *config.Config) *gorm.DB {
 		log.Fatalln(err)
 	}
 
-	db.AutoMigrate(&models.Balance{})
+	err = db.AutoMigrate(&models.Balance{})
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	return db
 }

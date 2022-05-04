@@ -12,3 +12,6 @@ d.down:
 
 d.up.build:
 	docker-compose --build up
+
+lint:
+	golangci-lint run cmd/main.go
