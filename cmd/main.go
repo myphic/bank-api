@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"restapi/pkg/logs"
 
 	"restapi/pkg/balance"
 	"restapi/pkg/common/config"
@@ -11,12 +11,14 @@ import (
 )
 
 func main() {
+	logs.Init()
+	logger := logs.GetLogger()
+	logger.Info("Loading config..")
 	c, err := config.LoadConfig()
-
 	if err != nil {
-		log.Fatalln("Failed at config", err)
+		logger.Fatalln("Failed at config", err)
 	}
-
+	logger.Info("The config is loaded")
 	h := db.Init(&c)
 	app := fiber.New()
 
@@ -24,6 +26,6 @@ func main() {
 
 	err = app.Listen(c.Port)
 	if err != nil {
-		log.Fatalln("Failed at listen", err)
+		logger.Fatalln("Failed at listen", err)
 	}
 }
