@@ -14,10 +14,12 @@ func main() {
 	logs.Init()
 	logger := logs.GetLogger()
 	logger.Info("Loading config..")
+
 	c, err := config.LoadConfig()
 	if err != nil {
 		logger.Fatalln("Failed at config", err)
 	}
+
 	logger.Info("The config is loaded")
 	h := db.Init(&c)
 	app := fiber.New()

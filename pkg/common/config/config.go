@@ -2,6 +2,7 @@ package config
 
 import (
 	"github.com/spf13/viper"
+	"restapi/pkg/logs"
 )
 
 type Config struct {
@@ -14,6 +15,7 @@ type Config struct {
 }
 
 func LoadConfig() (c Config, err error) {
+	logger := logs.GetLogger()
 	viper.AddConfigPath("./")
 	viper.SetConfigName(".env")
 	viper.SetConfigType("env")
@@ -22,7 +24,7 @@ func LoadConfig() (c Config, err error) {
 	err = viper.ReadInConfig()
 
 	if err != nil {
-		return
+		logger.Fatalln("Cannot read config")
 	}
 
 	err = viper.Unmarshal(&c)

@@ -3,12 +3,14 @@ package balance
 import (
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
+	"restapi/pkg/logs"
 )
 
 const apiUrl = "api"
 
 type handler struct {
-	DB *gorm.DB
+	DB     *gorm.DB
+	logger *logs.Logger
 }
 
 func RegisterRoutes(app *fiber.App, db *gorm.DB) {
