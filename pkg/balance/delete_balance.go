@@ -23,7 +23,7 @@ func (h handler) DeleteBalance(c *fiber.Ctx) error {
 	}
 
 	if currentBalance.Amount-int32(amount) < 0 {
-		return fiber.NewError(fiber.StatusInternalServerError, "There is not enough money in the account to withdraw funds")
+		return fiber.NewError(fiber.StatusNotFound, "There is not enough money in the account to withdraw funds")
 	}
 
 	h.DB.Model(&balance).Update("amount", gorm.Expr("amount - ?", amountFromParams))

@@ -13,9 +13,10 @@ type handler struct {
 	logger *logs.Logger
 }
 
-func RegisterRoutes(app *fiber.App, db *gorm.DB) {
+func RegisterRoutes(app *fiber.App, db *gorm.DB, logger *logs.Logger) {
 	h := &handler{
-		DB: db,
+		DB:     db,
+		logger: logger,
 	}
 
 	routes := app.Group("/")

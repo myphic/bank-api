@@ -18,17 +18,16 @@ func (h handler) TransferBalance(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 	if body.Amount == 0 {
-		return fiber.NewError(fiber.StatusInternalServerError, "It is impossible to transfer zero funds")
+		return fiber.NewError(fiber.StatusNotFound, "It is impossible to transfer zero funds")
 	}
-	var balanceFrom models.Balance
-	var balanceTo models.Balance
+	var balanceFrom, balanceTo models.Balance
 	var firstUserBalance, secondUserBalance Balance
 	find := h.DB.First(&balanceFrom, body.FromUserId)
 	find.Scan(&firstUserBalance)
 	find = h.DB.First(&balanceTo, body.ToUserId)
 	find.Scan(&secondUserBalance)
 	if firstUserBalance.Amount-body.Amount < 0 {
-		return fiber.NewError(fiber.StatusInternalServerError, "There is not enough money in the account to transfer funds")
+		return fiber.NewError(fiber.StatusNotFound, "There is not enough money in the account to transfer funds")
 	}
 	balanceFrom.Amount = firstUserBalance.Amount - body.Amount
 	balanceTo.Amount = secondUserBalance.Amount + body.Amount
