@@ -1,6 +1,7 @@
 package main
 
 import (
+	appredis "restapi/pkg/common/redis"
 	"restapi/pkg/logs"
 
 	"restapi/pkg/balance"
@@ -23,8 +24,9 @@ func main() {
 	logger.Info("The config is loaded")
 	h := db.Init(&c)
 	app := fiber.New()
+	redis := appredis.GetCache()
 
-	balance.RegisterRoutes(app, h)
+	balance.RegisterRoutes(app, h, &logger, redis)
 
 	err = app.Listen(c.Port)
 	if err != nil {
