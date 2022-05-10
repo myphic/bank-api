@@ -6,6 +6,11 @@ import (
 	"time"
 )
 
+const (
+	size      int           = 1000
+	cacheTime time.Duration = 10 * time.Minute
+)
+
 type Object struct {
 	Str string
 	Num int
@@ -19,6 +24,6 @@ func GetCache() *cache.Cache {
 	})
 	return cache.New(&cache.Options{
 		Redis:      ring,
-		LocalCache: cache.NewTinyLFU(1000, 10*time.Minute),
+		LocalCache: cache.NewTinyLFU(size, cacheTime),
 	})
 }
