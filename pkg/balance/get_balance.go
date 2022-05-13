@@ -46,11 +46,15 @@ func convertCurrency(currency int, currencyFrom string) int {
 
 func (h handler) GetBalance(c *fiber.Ctx) error {
 	id := c.Params("id")
+	currency := c.Params("currency")
 	var balance models.Balance
 	if result := h.DB.First(&balance, id); result.Error != nil {
 		return fiber.NewError(fiber.StatusNotFound, result.Error.Error())
 	}
-
+	if len(currency) > 0 {
+		balance.Amount = convertCurrency(balance.Amount, currency)
+		return c.Status(fiber.StatusOK).JSON(&balance)
+	}
 	key := id
 	obj := balance
 	err := appredis.GetCache().Set(&cache.Item{

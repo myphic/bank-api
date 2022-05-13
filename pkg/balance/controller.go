@@ -24,7 +24,7 @@ func RegisterRoutes(app *fiber.App, db *gorm.DB, logger *logs.Logger, redis *cac
 
 	routes := app.Group("/")
 	routes.Post(apiUrl+"/deposit/", h.AddBalance)
-	routes.Get(apiUrl+"/balance/:id", verifyCache, h.GetBalance)
+	routes.Get(apiUrl+"/balance/:id/:currency?", verifyCache, h.GetBalance)
 	routes.Post(apiUrl+"/transfer/", h.TransferBalance)
 	routes.Delete(apiUrl+"/decrease/:id/:amount", h.DeleteBalance)
 }

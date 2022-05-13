@@ -6,11 +6,11 @@ import (
 )
 
 type AddBalanceRequestBody struct {
-	Amount int32 `json:"amount"`
-	Id     int   `json:"id"`
+	Amount int `json:"amount"`
+	Id     int `json:"id"`
 }
 type Balance struct {
-	Amount int32
+	Amount int
 }
 
 func (h handler) AddBalance(c *fiber.Ctx) error {

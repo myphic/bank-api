@@ -22,7 +22,7 @@ func (h handler) DeleteBalance(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusNotFound, find.Error.Error())
 	}
 
-	if currentBalance.Amount-int32(amount) < 0 {
+	if currentBalance.Amount-amount < 0 {
 		return fiber.NewError(fiber.StatusNotFound, "There is not enough money in the account to withdraw funds")
 	}
 
