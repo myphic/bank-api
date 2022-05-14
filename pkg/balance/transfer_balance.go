@@ -6,9 +6,9 @@ import (
 )
 
 type TransferBalanceRequestBody struct {
-	Amount     int `json:"amount"`
-	FromUserId int `json:"fromUserId"`
-	ToUserId   int `json:"toUserId"`
+	Amount     float64 `json:"amount"`
+	FromUserId int     `json:"fromUserId"`
+	ToUserId   int     `json:"toUserId"`
 }
 
 func (h handler) TransferBalance(c *fiber.Ctx) error {

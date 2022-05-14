@@ -30,14 +30,14 @@ func verifyCache(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"Cached": data})
 }
 
-func convertCurrency(currency int, currencyFrom string) int {
+func convertCurrency(currency float64, currencyFrom string) float64 {
 	logger := logs.GetLogger()
-	agent := fiber.Get("https://api.coingate.com/v2/rates/merchant/" + currencyFrom + "/RUB")
+	agent := fiber.Get("https://api.coingate.com/v2/rates/merchant/RUB/" + currencyFrom + "/")
 	_, response, err := agent.String()
 	if err != nil {
 		logger.Errorln("Error with convert currency: ", err)
 	}
-	convertedCurrency, errConv := strconv.Atoi(response)
+	convertedCurrency, errConv := strconv.ParseFloat(response, 64)
 	if errConv != nil {
 		logger.Errorln("Error with convert string to int: ", err)
 	}

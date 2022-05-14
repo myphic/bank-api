@@ -14,9 +14,15 @@ func (h handler) DeleteBalance(c *fiber.Ctx) error {
 
 	var balance models.Balance
 
-	id, _ := strconv.Atoi(getId)
+	id, err := strconv.Atoi(getId)
+	if err != nil {
+		h.logger.Errorln("Error with parse to int: ", err)
+	}
 	balance.Id = id
-	amount, _ := strconv.Atoi(amountFromParams)
+	amount, err := strconv.ParseFloat(amountFromParams, 64)
+	if err != nil {
+		h.logger.Errorln("Error with parse to float: ", err)
+	}
 	var currentBalance Balance
 	if find := h.DB.First(&balance, id).Scan(&currentBalance); find.Error != nil {
 		return fiber.NewError(fiber.StatusNotFound, find.Error.Error())
